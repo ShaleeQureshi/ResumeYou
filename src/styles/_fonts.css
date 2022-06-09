@@ -1,0 +1,16 @@
+@font-face {
+    font-family: Mon-Bold;
+    src: url("../assets/Montserrat/static/Montserrat-Bold.ttf");
+}
+@font-face {
+    font-family: Mon-Light;
+    src: url("../assets/Montserrat/static/Montserrat-Light.ttf");
+}
+@font-face {
+    font-family: Mon-Medium;
+    src: url("../assets/Montserrat/static/Montserrat-Medium.ttf");
+}
+@font-face {
+    font-family: Mon-SemiBold;
+    src: url("../assets/Montserrat/static/Montserrat-SemiBold.ttf");
+}
