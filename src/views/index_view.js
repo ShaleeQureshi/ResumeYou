@@ -10,35 +10,19 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-scroll";
 
-// Importing my components
-import PopupModal from "../components/popup_modal";
-
 // Importing Landing Images
 import CREATE from "../assets/Images/landing/create.png";
 import FEEDBACK from "../assets/Images/landing/feedback.png";
 import STEPS from "../assets/Images/landing/steps.png";
 import Footer from "../components/footer";
 
-// Array of steps with a break inbetween
-//  This information is displayed in the learn_more section
-const steps = [
-  "1. Create an Account",
-  <br />,
-  "2. Set up Your Profile",
-  <br />,
-  "3. Search for Advisors",
-  <br />,
-  "4. Message one you like",
-  <br />,
-  "5. Wait for a response!",
-];
 // An Array of Objects for the cards in the learn_more section
 const cards_learn_more_data = [
   {
     image: CREATE,
     header: "Create",
     title: "Create your own Resumes and Cover Letters.",
-    text: "We encourage our users to develop their own Resumes and Cover Letters before seeking advice from seasoned industry workers",
+    text: "We encourage our users to develop their own Resumes and Cover Letters before seeking advice from seasoned industry workers.",
   },
   {
     image: FEEDBACK,
@@ -50,7 +34,17 @@ const cards_learn_more_data = [
     image: STEPS,
     header: "What do I do next?",
     title: "A Step by Step Process to achieve employment",
-    text: steps,
+    text: [
+      "1. Create an Account",
+      <br />,
+      "2. Set up Your Profile",
+      <br />,
+      "3. Search for Advisors",
+      <br />,
+      "4. Message one you like",
+      <br />,
+      "5. Wait for a response!",
+    ],
   },
 ];
 
@@ -78,6 +72,9 @@ const Card_learn_more = (props) => {
   );
 };
 
+// This object just contains some data for the Modal that will be
+// used for the registration process and just gets rid of some
+// repeated code
 const registration_data = [
   {
     p_text: "Don't have an account?",
@@ -96,15 +93,58 @@ const registration_data = [
 ];
 
 // Popup Modal for registration
+// Contains code that validates user entries for registration and
+// code that communicates with the Firebase API to validate a user's
+// login session and stores the data in its Realtime Database
 const RegModal = (props) => {
   const [show, setShow] = useState(false);
 
-  // Checks to see if the user's passwords fit the given criteria
-  //  1. 8-24 characters in length
-  //  2. Passwords match
-  const handleClose = () => {
-    setShow(false);
-    // fix this
+  const handleClose = (close_btn) => {
+    if (close_btn) {
+      setShow(false);
+    } else {
+      var email = document.getElementById("email").value;
+      var first_name = document.getElementById("first_name").value;
+      var last_name = document.getElementById("last_name").value;
+      var password = document.getElementById("password").value;
+      var confirm_password = document.getElementById("confirm_password").value;
+      const student_btn = document.getElementById("student_btn").checked;
+      const advisor_btn = document.getElementById("advisor_btn").checked;
+
+      var invalid_form_completion = true;
+
+      if (
+        email.length > 0 &&
+        first_name.length > 0 &&
+        last_name.length > 0 &&
+        password.length >= 8 &&
+        confirm_password.length >= 8 &&
+        password.length <= 24 &&
+        confirm_password.length <= 24 &&
+        ((student_btn === false && advisor_btn === true) ||
+          (student_btn === true && advisor_btn === false))
+      ) {
+        var password_array = password.split("");
+        var confirm_pass_array = confirm_password.split("");
+        for (var i = 0; i < password_array.length; i++) {
+          if (password_array[i] != confirm_pass_array[i]) {
+            invalid_form_completion = true;
+            break;
+          }
+        }
+        invalid_form_completion = false;
+      }
+
+      if (invalid_form_completion) {
+        alert(
+          "The Registration form has not been completed properly!\nPlease double check all entries!"
+        );
+      } else {
+        alert("You have successfully registered with ResumeYou!");
+        // Add backend code here or before the alert but before setshow
+        setShow(false);
+      }
+    }
   };
   const handleShow = () => setShow(true);
   return (
@@ -112,7 +152,11 @@ const RegModal = (props) => {
       <p className="pt-3" id="signup_link">
         {props.reg.p_text} <a onClick={handleShow}>{props.reg.a_text}</a>
       </p>
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        onHide={() => {
+          handleClose(true);
+        }}>
         <Modal.Header closeButton>
           <Modal.Title>{props.reg.modal_heading}</Modal.Title>
         </Modal.Header>
@@ -167,13 +211,35 @@ const RegModal = (props) => {
                 required
               />
             </Form.Group>
-            <Button variant="primary" type="submit" onClick={handleClose}>
+            <Form.Label>Select one of the following:</Form.Label>
+            <Form.Check
+              type="checkbox"
+              label="I am a Student"
+              id="student_btn"
+            />
+            <Form.Check
+              type="checkbox"
+              label="I am an Advisor"
+              id="advisor_btn"
+            />
+            <Button
+              variant="primary"
+              type="submit"
+              className="mt-3"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClose(false);
+              }}>
               {props.reg.btn_save_text}
             </Button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleClose(true);
+            }}>
             {props.reg.btn_close_modal_text}
           </Button>
         </Modal.Footer>
@@ -219,7 +285,12 @@ const IndexView = () => {
                   <Button
                     variant="outline-success"
                     className="w-75"
-                    type="submit">
+                    type="submit"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      // Call a function here to validate login credentials and
+                      //  re-route the user
+                    }}>
                     Login
                   </Button>
                   <RegModal reg={registration_data[0]} />
