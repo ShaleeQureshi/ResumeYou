@@ -250,77 +250,75 @@ const RegModal = (props) => {
 
 const IndexView = () => {
   return (
-    <div>
-      <div className="index_page">
-        <section className="wrapper">
-          <Container className="pt-5">
-            <Row className="landing">
-              <Col md={{ span: 3, offset: 2 }} className="text-center pt-5">
-                <h1>ResumeYou</h1>
-                <Link
-                  activeClass="active"
-                  to="index_learn_more"
-                  spy={true}
-                  smooth={true}
-                  offset={-70}
-                  duration={500}>
-                  <Button
-                    className="w-75"
-                    variant="outline-dark"
-                    id="index_learn_more_btn">
-                    Learn More
-                  </Button>
-                </Link>
-              </Col>
-              <Col md={{ span: 3, offset: 1 }} className="pt-5">
-                <Form>
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
-                  </Form.Group>
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
-                  </Form.Group>
-                  <Button
-                    variant="outline-success"
-                    className="w-75"
-                    type="submit"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      // Call a function here to validate login credentials and
-                      //  re-route the user
-                    }}>
-                    Login
-                  </Button>
-                  <RegModal reg={registration_data[0]} />
-                </Form>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-        <section className="index-learn-more" id="index_learn_more">
-          <Container>
-            <Card id="index_learn_more_card">
-              <Card.Body>
-                <Card.Title className="text-center">ResumeYou</Card.Title>
-                <Card.Text className="text-center">
-                  A Multi-Sided Platform designed to aid job seekers create an
-                  excellent Resume and Cover Letter to achieve employment.
-                </Card.Text>
-                <Row className="justify-content-around">
-                  {cards_learn_more_data.map((data) => (
-                    <Card_learn_more data={data} key={data.title} />
-                  ))}
-                </Row>
-              </Card.Body>
-              <Card.Footer className="text-center">
-                <RegModal reg={registration_data[1]} />
-              </Card.Footer>
-            </Card>
-          </Container>
-        </section>
-      </div>
+    <div className="bg">
+      <section className="wrapper">
+        <Container className="pt-5">
+          <Row className="landing">
+            <Col md={{ span: 3, offset: 2 }} className="text-center pt-5">
+              <h1>ResumeYou</h1>
+              <Link
+                activeClass="active"
+                to="index_learn_more"
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={500}>
+                <Button
+                  className="w-75"
+                  variant="outline-dark"
+                  id="index_learn_more_btn">
+                  Learn More
+                </Button>
+              </Link>
+            </Col>
+            <Col md={{ span: 3, offset: 1 }} className="pt-5">
+              <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+                <Button
+                  variant="outline-success"
+                  className="w-75"
+                  type="submit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    // Call a function here to validate login credentials and
+                    //  re-route the user
+                  }}>
+                  Login
+                </Button>
+                <RegModal reg={registration_data[0]} />
+              </Form>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+      <section className="index-learn-more" id="index_learn_more">
+        <Container>
+          <Card id="index_learn_more_card">
+            <Card.Body>
+              <Card.Title className="text-center">ResumeYou</Card.Title>
+              <Card.Text className="text-center">
+                A Multi-Sided Platform designed to aid job seekers create an
+                excellent Resume and Cover Letter to achieve employment.
+              </Card.Text>
+              <Row className="justify-content-around">
+                {cards_learn_more_data.map((data) => (
+                  <Card_learn_more data={data} key={data.title} />
+                ))}
+              </Row>
+            </Card.Body>
+            <Card.Footer className="text-center">
+              <RegModal reg={registration_data[1]} />
+            </Card.Footer>
+          </Card>
+        </Container>
+      </section>
       <Footer />
     </div>
   );
