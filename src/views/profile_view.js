@@ -1,10 +1,11 @@
-import React from "react";
-import { Container, Image, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Image, Row, Col, Modal, Button } from "react-bootstrap";
 
 // Importing my components
 import Footer from "../components/footer";
 
 // Importing SVGs
+import EDIT from "../assets/Images/profile/edit.png";
 import RESUME from "../assets/Images/profile/resume.svg";
 import COVER_LETTER from "../assets/Images/profile/cover_letter.svg";
 
@@ -67,13 +68,53 @@ const experience = [
   },
 ];
 
+const EditModal = (props) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleShow = () => setShow(true);
+  return (
+    <div className="popup_modal">
+      <a onClick={handleShow}>
+        <img src={EDIT} />
+        <br />
+        Edit
+      </a>
+      <Modal
+        show={show}
+        onHide={() => {
+          handleClose(true);
+        }}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit User Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary">Close</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+};
+
 const ProfileView = () => {
   return (
     <div className="bg">
       <div className="wrapper">
         <Container className="pt-5">
           <div className="profile_heading profile_bg">
-            <h3 className="text-center pt-5">I am a (student or advisor)</h3>
+            <Row className="headline">
+              <Col></Col>
+              <Col className="text-center">
+                <h3 className="pt-5">I am a (student or advisor) </h3>
+              </Col>
+              <Col id="col_3">
+                <EditModal />
+              </Col>
+            </Row>
             <hr />
             <Row className="justify-content-around">
               <Col sm={6} className="pb-5 text-center img_col">
