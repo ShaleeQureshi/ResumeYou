@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -9,6 +9,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { Link } from "react-scroll";
+import { Login, SignUp } from "../scripts/functions_firebase";
 
 // Importing Landing Images
 import CREATE from "../assets/Images/landing/create.png";
@@ -140,15 +141,20 @@ const RegModal = (props) => {
           "The Registration form has not been completed properly!\nPlease double check all entries!"
         );
       } else {
-        alert("You have successfully registered with ResumeYou!");
-        // Add backend code here or before the alert but before setshow
-        setShow(false);
+        // True for student, false for advisor
+        var student_or_advisor;
+        if (student_btn) {
+          student_or_advisor = "STUDENT";
+        } else {
+          student_or_advisor = "ADVISOR";
+        }
+        SignUp(first_name, last_name, student_or_advisor, email, password);
       }
     }
   };
   const handleShow = () => setShow(true);
   return (
-    <div className="popup_modal">
+    <div>
       <p className="pt-3" id="signup_link">
         {props.reg.p_text} <a onClick={handleShow}>{props.reg.a_text}</a>
       </p>
@@ -273,13 +279,21 @@ const IndexView = () => {
             </Col>
             <Col md={{ span: 3, offset: 1 }} className="pt-5">
               <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    id="login_email"
+                  />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    id="login_password"
+                  />
                 </Form.Group>
                 <Button
                   variant="outline-success"
@@ -287,8 +301,10 @@ const IndexView = () => {
                   type="submit"
                   onClick={(e) => {
                     e.preventDefault();
-                    // Call a function here to validate login credentials and
-                    //  re-route the user
+                    const email = document.getElementById("login_email").value;
+                    const password =
+                      document.getElementById("login_password").value;
+                    Login(email, password); // Calling Login Function from scripts folder
                   }}>
                   Login
                 </Button>

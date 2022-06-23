@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-import { Container, Image, Row, Col, Modal, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import {
+  Container,
+  Image,
+  Row,
+  Col,
+  Modal,
+  Button,
+  Form,
+} from "react-bootstrap";
 
 // Importing my components
 import Footer from "../components/footer";
 
-// Importing SVGs
+// Importing imgs
 import EDIT from "../assets/Images/profile/edit.png";
 import RESUME from "../assets/Images/profile/resume.svg";
 import COVER_LETTER from "../assets/Images/profile/cover_letter.svg";
@@ -33,7 +41,7 @@ const CustomSection = (props) => {
   return (
     <div className="profile_custom_section">
       <h3>{props.data.heading}</h3>
-      <hr />
+      <hr className="hr-custom" />
       <h4>{props.data.second_heading}</h4>
       <p>{props.data.other_info}</p>
     </div>
@@ -68,6 +76,51 @@ const experience = [
   },
 ];
 
+const Edit_Modal_Education_Experience = (props) => {
+  const [heading, setHeading] = useState(props.type.heading);
+  const [second_heading, setSecond_heading] = useState(
+    props.type.second_heading
+  );
+  const [other_info, setOther_info] = useState(props.type.other_info);
+
+  const handleHeading = (event) => {
+    setHeading(event.target.value);
+  };
+
+  const handleSecondHeading = (event) => {
+    setSecond_heading(event.target.value);
+  };
+
+  const handleOtherInfo = (event) => {
+    setOther_info(event.target.value);
+  };
+
+  return (
+    <div>
+      <Form.Control
+        className="mt-3"
+        type="text"
+        value={heading}
+        onChange={handleHeading}
+      />
+      <Form.Control
+        className="mt-3"
+        type="text"
+        value={second_heading}
+        onChange={handleSecondHeading}
+      />
+      <Form.Control
+        as="textarea"
+        rows={3}
+        className="mt-3"
+        value={other_info}
+        onChange={handleOtherInfo}
+      />
+      <hr />
+    </div>
+  );
+};
+
 const EditModal = (props) => {
   const [show, setShow] = useState(false);
 
@@ -77,7 +130,7 @@ const EditModal = (props) => {
 
   const handleShow = () => setShow(true);
   return (
-    <div className="popup_modal">
+    <div>
       <a onClick={handleShow}>
         <img src={EDIT} />
         <br />
@@ -87,13 +140,40 @@ const EditModal = (props) => {
         show={show}
         onHide={() => {
           handleClose(true);
-        }}>
+        }}
+        scrollable>
         <Modal.Header closeButton>
           <Modal.Title>Edit User Profile</Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body>
+          <Row className="text-center">
+            <h5>Files must be PDF</h5>
+            <Col>
+              <Form.Label>Upload New Resume</Form.Label>
+              <Form.Control type="file" />
+            </Col>
+            <Col>
+              <Form.Label>Upload New Cover Letter</Form.Label>
+              <Form.Control type="file" />
+            </Col>
+          </Row>
+          <div>
+            <h5 className="mt-4">Education</h5>
+            <hr className="hr-custom" />
+            {education.map((data) => (
+              <Edit_Modal_Education_Experience type={data} key={data.heading} />
+            ))}
+            <h5 className="mt-4">Experience</h5>
+            <hr className="hr-custom" />
+            {experience.map((data) => (
+              <Edit_Modal_Education_Experience type={data} key={data.heading} />
+            ))}
+          </div>
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary">Close</Button>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
@@ -115,7 +195,7 @@ const ProfileView = () => {
                 <EditModal />
               </Col>
             </Row>
-            <hr />
+            <hr className="hr-custom" />
             <Row className="justify-content-around">
               <Col sm={6} className="pb-5 text-center img_col">
                 <Image className="text-center" src={ME} roundedCircle />
@@ -143,7 +223,7 @@ const ProfileView = () => {
             <h2 id="education_experience_heading" className="text-center">
               Education
             </h2>
-            <hr />
+            <hr className="hr-custom" />
             {education.map((data) => (
               <CustomSection data={data} key={data.heading} />
             ))}
@@ -152,7 +232,7 @@ const ProfileView = () => {
             <h2 id="education_experience_heading" className="text-center">
               Experience
             </h2>
-            <hr />
+            <hr className="hr-custom" />
             {experience.map((data) => (
               <CustomSection data={data} key={data.heading} />
             ))}
