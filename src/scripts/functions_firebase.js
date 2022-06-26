@@ -2,10 +2,12 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
+import { getDatabase, ref, onValue, update } from "firebase/database";
+import history from "../scripts/history";
 
-import { getDatabase, ref, child, push, set, update } from "firebase/database";
-
+// Global references
 const auth = getAuth();
 const database = getDatabase();
 
@@ -18,7 +20,9 @@ const database = getDatabase();
 const Login = async (email, password) => {
   await signInWithEmailAndPassword(auth, email, password)
     .then((cred) => {
-      // go to profile page
+      // Need to add parameter to view their specific profile
+      history.push("/profile");
+      window.location.reload();
     })
     .catch((error) => {
       alert(error);
@@ -45,11 +49,23 @@ const SignUp = async (
         last_name: last_name,
         student_or_advisor: student_or_advisor,
       };
+      const email_list_entry = {
+        email: cred.user.email,
+      };
+      var email_path = cred.user.email.replaceAll(".", "");
+      alert(email_path);
       const updates = {};
       updates["/users/" + cred.user.uid + "/user_info"] = entry;
-      update(ref(database), updates);
+      updates["/email-list/" + email_path] = email_list_entry;
+      update(ref(database), updates).then(() => {
+        updateProfile(cred.user, {
+          displayName: first_name + " " + last_name,
+        });
 
-      // Take them to their profile
+        // Redirects them to the setup profile page
+        history.push("/profile-setup");
+        window.location.reload();
+      });
     })
     .catch((error) => {
       alert(error);
