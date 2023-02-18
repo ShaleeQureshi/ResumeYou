@@ -1,3 +1,65 @@
 h1 {
-  font-family: Sans-SemiBold;
+  font-family: Roboto-Regular;
+}
+
+.landing-jumbotron {
+  padding: 2rem 1rem;
+  background-color: #00cdac;
+  border-radius: 0.3rem;
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 60%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 0 100%);
+  span {
+    color: white;
+  }
+}
+
+.landing-main-content {
+  h3 {
+    text-align: center;
+    font-family: Roboto-Regular;
+  }
+  h4,
+  h5 {
+    font-family: Roboto-Regular;
+  }
+  .cols {
+    min-width: 375px;
+    background-color: aliceblue;
+    border-radius: 50px;
+  }
+  .inner-text {
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 25px;
+    span {
+      color: #00cdac;
+    }
+  }
+  .bubble-p-text {
+    border-radius: 100px;
+    background-color: #00cdac;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: fit-content;
+    font-family: Roboto-Light;
+  }
+}
+
+#forgot-password-link {
+  text-align: start;
+  margin-left: -3.5%;
+}
+.landing-img {
+  height: 40vmin;
+  align-items: start;
+}
+
+@media only screen and (max-width: 600px) {
+  .landing-img-grid {
+    display: none;
+  }
 }

@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { HashLoader } from "react-spinners";
-
-const override: object = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translateX(-50%) translateY(-50%)",
-};
+import { Loading } from "../../components";
 
 var defaultValue: any;
 export const AuthContext = React.createContext(defaultValue);
@@ -33,14 +26,7 @@ const AuthProvider = ({ children }: any) => {
       </AuthContext.Provider>
     );
   } else {
-    return (
-      <HashLoader
-        cssOverride={override}
-        size={100}
-        color={"#36d7b7"}
-        loading={pending}
-      />
-    );
+    return <Loading heading="Attempting to authenticate the user" />;
   }
 };
 export default AuthProvider;

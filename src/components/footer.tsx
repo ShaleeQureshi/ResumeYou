@@ -1,8 +1,8 @@
 import React from "react";
 
 // Importing images for footer
-import LINKEDIN from "../assets/images/footer/linkedin.png";
-import GITHUB from "../assets/images/footer/github.png";
+import LINKEDIN from "../assets/visuals/footer/linkedin.png";
+import GITHUB from "../assets/visuals/footer/github.png";
 const Footer = () => {
   return (
     <div className="footer text-center">
